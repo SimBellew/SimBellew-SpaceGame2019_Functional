@@ -1,0 +1,9 @@
+name: "Ship 1"
+cubes:
+  - comp:
+      id: 0
+      type: 0 #kConduit
+location:
+  x: 0
+  y: 0
+  z: 0
