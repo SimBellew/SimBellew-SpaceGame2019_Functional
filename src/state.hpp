@@ -9,10 +9,11 @@ namespace state
 
     struct State
     {
-        ships::Ship *next_ship;
+        const ships::Ship *next_ship;
 
         State() { }
         State(ships::Ship *ship) { next_ship = ship; }
+        State(State *old_state, ships::Ship *ship) { next_ship = ship; delete old_state; }
         State(State *old_state, ships::Ship *ship) { next_ship = ship; delete old_state; }
     };
 }

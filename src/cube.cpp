@@ -1,9 +1,8 @@
 #include "cube.hpp"
 
-// TODO convert yaml node to cube
-cubes::Cube cubes::NodeToCube(const YAML::Node &node)
+cubes::Cube *cubes::LoadCube(YAML::Node node, u_int index)
 {
-    components::Types type = static_cast<components::Types>( node["type"].as<int>());
+    if (index >= node.size()) return NULL;
 
-    return cubes::Cube(type, node["mass"].as<int>(), vectors::vector3(node["location"]));
+    return new cubes::Cube(node[index], cubes::LoadCube(node, index + 1));
 }

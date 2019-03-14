@@ -1,24 +1,22 @@
 #include "ship.hpp"
 
-ships::Ship *ships::LoadShip(std::string filename, ships::Ship *next)
+
+ships::Ship *ships::LoadShip(YAML::Node ship_yaml, ships::Ship *next)
 {
-    // Parse ship file
-    YAML::Node ship_yaml = YAML::LoadFile(filename);
-
-    // Parse ship cubes
-    std::vector<YAML::Node> source_nodes = ship_yaml["cubes"].as<std::vector<YAML::Node>>();
-    std::vector<cubes::Cube> ship_cubes;
-    std::back_insert_iterator< std::vector<cubes::Cube> > back_it (ship_cubes);
-    std::transform(source_nodes.begin(), source_nodes.end(), back_it, cubes::NodeToCube);
-
     // Parse location
     vectors::vector3 *location = new vectors::vector3(ship_yaml["location"]);
-    
+    cubes::Cube *cube = cubes::LoadCube(ship_yaml["cubes"], 0);
+    //cubes::Cube *cube = new cubes::Cube(ship_yaml["cubes"][0], NULL);
+
     // Return ship
-    return new ships::Ship(ship_yaml["name"].as<std::string>(), ship_cubes, location);
+    return new ships::Ship(ship_yaml["name"].as<std::string>(), cube, location, NULL);
+    
+    //std::string lol = ship_yaml["name"].as<std::string>();
+
+    //return new ships::Ship();
 }
 
-bool ships::TestAction(ships::Ship *ship, ships::Actions action)
+bool ships::TestShipAction(const ships::Ship &ship, std::string action)
 {
     return true;
 }

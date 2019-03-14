@@ -20,35 +20,37 @@ namespace ships
     struct Ship
     {
         std::string name;
-        std::vector<cubes::Cube> cubes;
+        cubes::Cube *cube;
         vectors::vector3 *location;
         ShipStats *stats;
         Ship *next;
 
         Ship() { }
-        Ship(std::string ship_name, std::vector<cubes::Cube> ship_cubes, vectors::vector3 *ship_loc)
+        Ship(std::string ship_name, cubes::Cube *ship_cubes, vectors::vector3 *ship_loc, Ship *ship_next)
         {
             name = ship_name;
-            cubes = ship_cubes;
+            cube = ship_cubes;
             location = ship_loc;
             stats = new ShipStats();
-            next = NULL;
+            next = ship_next;
+        }
+        Ship(Ship *ship, std::string action)
+        {
+
+        }
+        Ship(const Ship &ship, std::string action)
+        {
+            
         }
     };
 
-    enum Actions
-    {
-        Accelerate = 0,
-        Rotate = 0,
-        Fire = 0,
+    static const std::string ActionStrings[] = { "Accelerate", "Rotate", "Fire", "Back"};
 
-    };
+    Ship *LoadShip(YAML::Node ship_yaml, Ship *next);
 
-    Ship *LoadShip(std::string filename, Ship *next);
+    Ship *DeriveTurnStats(const Ship &ship);
 
-    Ship *DeriveTurnStats(Ship *ship);
-
-    bool TestAction(Ship *ship, Actions action);
+    bool TestShipAction(const Ship &ship, std::string action);
 }
 
 #endif /* SHIP_H_ */
